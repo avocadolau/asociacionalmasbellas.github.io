@@ -1,0 +1,2 @@
+# Añade aquí el nombre de cada imagen de esta carpeta, una por línea.
+icono.png
