@@ -7,6 +7,7 @@ const status = document.querySelector("#adopted-status");
 const navToggle = document.querySelector(".mobile-nav-toggle");
 const navMenu = document.querySelector("#main-nav-menu");
 let muralResizeTimer;
+let muralLayoutWidth = 0;
 const imageListCache = new Map();
 let galleryImages = [];
 let galleryIndex = 0;
@@ -28,10 +29,7 @@ navMenu?.querySelectorAll("a").forEach(link => link.addEventListener("click", ()
 window.addEventListener("resize", () => {
   clearTimeout(muralResizeTimer);
   muralResizeTimer = setTimeout(() => {
-    grid?.querySelectorAll(".adopted-card").forEach(card => {
-      delete card.dataset.muralX;
-      delete card.dataset.muralY;
-    });
+    if (!grid || grid.clientWidth === muralLayoutWidth) return;
     layoutMural();
   }, 120);
 });
@@ -88,6 +86,7 @@ function layoutMural() {
   const width = grid.clientWidth;
   const height = grid.clientHeight;
   if (!width || !height) return;
+  muralLayoutWidth = width;
   const itemCount = grid.children.length;
   const densityScale = Math.max(0.68, Math.min(1.12, 1.3 / Math.sqrt(itemCount)));
   [...grid.children].forEach(card => {
